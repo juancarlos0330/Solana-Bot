@@ -1,0 +1,3 @@
+To avoid floods, use a telegram account with no groups because it detects every message sent on every group.
+
+The fewer groups the most effective it will be

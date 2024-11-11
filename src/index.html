@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="icon" type="image/x-icon" href="logo.ico" />
+    <link rel="apple-touch-icon" href="logo.png" />
+  </head>
+
+  <body>
+    <!-- Start -->
+    <div id="myModal" class="modal">
+      <span class="close">&times;</span>
+      <img class="modal-content" id="modalImage" />
+      <button class="prev" onclick="changeImage(-1)">&#10094;</button>
+      <button class="next" onclick="changeImage(1)">&#10095;</button>
+    </div>
+    <!-- End -->
+
+    <div class="my-header">
+      <div class="logo d-flex flex-row justify-items-center">
+        <img src="logo.png" class="logo-image" />
+        <p>Solana Sniper Bot</p>
+        &nbsp;&nbsp;&nbsp;
+        <p
+          id="wallet-address"
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            font-size: 15px;
+          "
+        ></p>
+        <button class="withdraw flex-right" id="withdraw" style="display: none">
+          Withdraw
+        </button>
+      </div>
+      <div class="connect-container d-flex flex-row justify-content-between">
+        <input type="text" value="" id="rpc-input" hidden />
+        <button type="button" class="save-rpc" id="save-rpc" hidden>
+          Save
+        </button>
+        <button class="connect-button" id="tutorial">Tutorial</button>
+        <button class="connect-button" id="create-wallet">Create Wallet</button>
+        <button class="connect-button" id="connect-wallet">Login</button>
+
+        <!-- Tutorial modal for login button -->
+        <div class="tutorial-modal for-login-modal">
+          <div class="tutorial-submodal">
+            <div class="tutorial-modal-close">
+              <button
+                type="button"
+                class="tutorial-modal-close-btn"
+                onclick="handleTutorialStep('close')"
+              >
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="tutorial-description">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry.
+            </div>
+            <div class="modal-footer-section">
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep('close')"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep('createWallet')"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End section -->
+
+        <!-- Tutorial modal for create Wallet button -->
+        <div class="tutorial-modal for-createWallet-modal">
+          <div class="tutorial-submodal">
+            <div class="tutorial-modal-close">
+              <button
+                type="button"
+                class="tutorial-modal-close-btn"
+                onclick="handleTutorialStep('close')"
+              >
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="tutorial-description">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry.
+            </div>
+            <div class="modal-footer-section">
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep('login')"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep('addTelegramChannel')"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End section -->
+      </div>
+    </div>
+
+    <div class="cover-section" id="cover-section"></div>
+
+    <div class="my-container">
+      <div class="my-div d-flex flex-row justify-content-between info-row">
+        <p class="mx-4">Active Call Channels</p>
+        <div
+          class="d-flex flex-row justify-content-between"
+          style="overflow-x: auto"
+          id="active-telegram-channels"
+        >
+          <p class="mx-3"><span class="span-grey">#1</span>No groups set</p>
+        </div>
+        <div class="d-flex flex-row buttons-control">
+          <button type="button" id="add-tg">Add</button>
+          <button type="button" id="remove-tg">Remove</button>
+
+          <!-- Tutorial modal for Add telegram channel button -->
+          <div class="tutorial-modal for-addTelegram-modal">
+            <div class="tutorial-submodal">
+              <div class="tutorial-modal-close">
+                <button
+                  type="button"
+                  class="tutorial-modal-close-btn"
+                  onclick="handleTutorialStep('close')"
+                >
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+              <div class="tutorial-description">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum is simply dummy text of the printing and
+                typesetting industry.
+              </div>
+              <div class="modal-footer-section">
+                <button
+                  type="button"
+                  class="modal-footer-btn"
+                  onclick="handleTutorialStep('createWallet')"
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  class="modal-footer-btn"
+                  onclick="handleTutorialStep('removeTelegramChannel')"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- End section -->
+
+          <!-- Tutorial modal for remove telegram channel button -->
+          <div class="tutorial-modal for-removeTelegram-modal">
+            <div class="tutorial-submodal">
+              <div class="tutorial-modal-close">
+                <button
+                  type="button"
+                  class="tutorial-modal-close-btn"
+                  onclick="handleTutorialStep('close')"
+                >
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+              <div class="tutorial-description">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum is simply dummy text of the printing and
+                typesetting industry.
+              </div>
+              <div class="modal-footer-section">
+                <button
+                  type="button"
+                  class="modal-footer-btn"
+                  onclick="handleTutorialStep('addTelegramChannel')"
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  class="modal-footer-btn"
+                  onclick="handleTutorialStep('tokenBuyAmount')"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- End section -->
+        </div>
+
+        <!-- Tutorial modal for Trading View Table -->
+        <div class="tutorial-modal for-tradingView-modal">
+          <div class="tutorial-submodal">
+            <div class="tutorial-modal-close">
+              <button
+                type="button"
+                class="tutorial-modal-close-btn"
+                onclick="handleTutorialStep()"
+              >
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="tutorial-description">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry.
+            </div>
+            <div class="modal-footer-section">
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep()"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep()"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End section -->
+      </div>
+
+      <div class="main-table d-flex flex-column">
+        <div id="trade-rows" class="d-flex flex-column">
+          <div class="d-flex flex-row header-row">
+            <div class="border-right">#</div>
+            <div class="border-right">TOKEN TICKER</div>
+            <div class="border-right">TOKEN ADDRESS</div>
+            <div class="border-right">PURCHASE TX</div>
+            <div class="border-right">UNREALIZED PROFIT</div>
+            <div class="border-right">REALIZED PROFIT</div>
+            <div class="border-right">PROFIT TAKEN <br />& LOST TRACK</div>
+            <div>SELL</div>
+          </div>
+          <div class="d-flex flex-row body-row">
+            <!-- <div class="border-right border-down">#2</div>
+                    <div class="border-right border-down">PEPE</div>
+                    <div class="border-right border-down">
+                        <button class="token-address-btn d-flex flex-row">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-copy" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                            </svg>
+                            <p>7fQhG***cbn2</p>
+                        </button>
+                    </div>
+                    <div class="border-right border-down">7fQhG***cbn2</div>
+                    <div class="border-right border-down">0</div>
+                    <div class="border-right border-down green">0%</div>
+                    <div class="border-right">No / No</div>
+                    <div class="border-down"><button class="sell-button">Sell</button></div> -->
+            <span style="color: white; font-size: 12px"
+              >Your trades will show here...</span
+            >
+          </div>
+
+          <div class="d-flex flex-row footer-row">
+            <p class="mx-2">Showing tokens 1-10 of 90</p>
+            <button class="paginate-tokens mx-2">Pairs 1-10 ></button>
+          </div>
+        </div>
+      </div>
+
+      <form
+        class="settings d-flex flex-column justify-content-between"
+        id="form-settings"
+      >
+        <div class="d-flex flex-row p-2">
+          <div
+            class="d-flex flex-row justify-content-center align-items-center px-2"
+          >
+            <i class="fa fa-gear"></i>
+          </div>
+          <p class="header-settings">Bot Settings</p>
+        </div>
+
+        <div class="settings-items">
+          <div class="settings-item">
+            <p>Token Buy Amount</p>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input
+                type="text"
+                value="50"
+                class="form-control"
+                id="amountPerTrade"
+              />
+              <span class="helper-span"
+                ><span id="solana-amount-per-trade">0.5</span> Sol</span
+              >
+            </div>
+
+            <!-- Tutorial modal for Token Buy Amount Input -->
+            <div class="tutorial-modal for-tokenBuyAmount-modal">
+              <div class="tutorial-submodal">
+                <div class="tutorial-modal-close">
+                  <button
+                    type="button"
+                    class="tutorial-modal-close-btn"
+                    onclick="handleTutorialStep('close')"
+                  >
+                    <i class="fa fa-close"></i>
+                  </button>
+                </div>
+                <div class="tutorial-description">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry.
+                </div>
+                <div class="modal-footer-section">
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('removeTelegramChannel')"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('maxSlippage')"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End section -->
+          </div>
+          <div class="settings-item">
+            <p>Max Slippage</p>
+            <div class="input-group">
+              <span class="input-group-text">%</span>
+              <input
+                type="text"
+                value="5"
+                type="number"
+                class="form-control"
+                aria-label="Amount (to the nearest dollar)"
+                id="maxSlippagePercentage"
+              />
+            </div>
+
+            <!-- Tutorial modal for Max Slippage Input -->
+            <div class="tutorial-modal for-maxSlippage-modal">
+              <div class="tutorial-submodal">
+                <div class="tutorial-modal-close">
+                  <button
+                    type="button"
+                    class="tutorial-modal-close-btn"
+                    onclick="handleTutorialStep('close')"
+                  >
+                    <i class="fa fa-close"></i>
+                  </button>
+                </div>
+                <div class="tutorial-description">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry.
+                </div>
+                <div class="modal-footer-section">
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('tokenBuyAmount')"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('autoTrading')"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End section -->
+          </div>
+          <div class="settings-item">
+            <p class="mt-5">Auto Trading</p>
+            <div class="d-flex flex-row mt-5 on-off-buttons">
+              <button class="auto-trading-button off-button" type="button">
+                ON
+              </button>
+              <button class="auto-trading-button on-button" type="button">
+                OFF
+              </button>
+            </div>
+
+            <!-- Tutorial modal for Auto Trading Switch Box -->
+            <div class="tutorial-modal for-autoTrading-modal">
+              <div class="tutorial-submodal">
+                <div class="tutorial-modal-close">
+                  <button
+                    type="button"
+                    class="tutorial-modal-close-btn"
+                    onclick="handleTutorialStep('close')"
+                  >
+                    <i class="fa fa-close"></i>
+                  </button>
+                </div>
+                <div class="tutorial-description">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry.
+                </div>
+                <div class="modal-footer-section">
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('maxSlippage')"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('lockInProfits')"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End section -->
+          </div>
+          <div class="settings-item">
+            <p>Lock-in Profits</p>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="lockInProfits"
+            />
+
+            <!-- Tutorial modal for Lock-in Profits Check box -->
+            <div class="tutorial-modal for-lockInProfits-modal">
+              <div class="tutorial-submodal">
+                <div class="tutorial-modal-close">
+                  <button
+                    type="button"
+                    class="tutorial-modal-close-btn"
+                    onclick="handleTutorialStep('close')"
+                  >
+                    <i class="fa fa-close"></i>
+                  </button>
+                </div>
+                <div class="tutorial-description">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry.
+                </div>
+                <div class="modal-footer-section">
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('autoTrading')"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('profitTrigger')"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End section -->
+          </div>
+          <div class="settings-item">
+            <p>Retracement Profit Trigger</p>
+            <div class="input-group">
+              <input
+                type="text"
+                value="20"
+                type="number"
+                class="form-control"
+                id="trailingStopLossPercentageFromHigh"
+              />
+              <span class="helper-span">%</span>
+            </div>
+
+            <!-- Tutorial modal for Profit Trigger Input -->
+            <div class="tutorial-modal for-profitTrigger-modal">
+              <div class="tutorial-submodal">
+                <div class="tutorial-modal-close">
+                  <button
+                    type="button"
+                    class="tutorial-modal-close-btn"
+                    onclick="handleTutorialStep('close')"
+                  >
+                    <i class="fa fa-close"></i>
+                  </button>
+                </div>
+                <div class="tutorial-description">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry.
+                </div>
+                <div class="modal-footer-section">
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('lockInProfits')"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('profitSkimming')"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End section -->
+          </div>
+          <div class="settings-item">
+            <p>Profit Skimming Rate</p>
+            <div class="input-group">
+              <input
+                type="text"
+                value="50"
+                type="number"
+                class="form-control"
+                id="percentageToTakeAtTrailingStopLoss"
+              />
+              <span class="helper-span">%</span>
+            </div>
+
+            <!-- Tutorial modal for Profit Skimming Rate Input -->
+            <div class="tutorial-modal for-profitSkimming-modal">
+              <div class="tutorial-submodal">
+                <div class="tutorial-modal-close">
+                  <button
+                    type="button"
+                    class="tutorial-modal-close-btn"
+                    onclick="handleTutorialStep('close')"
+                  >
+                    <i class="fa fa-close"></i>
+                  </button>
+                </div>
+                <div class="tutorial-description">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry.
+                </div>
+                <div class="modal-footer-section">
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('profitTrigger')"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('stopLoss')"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End section -->
+          </div>
+          <div class="settings-item">
+            <p>Stop Loss</p>
+            <div class="d-flex flex-row">
+              <input
+                type="text"
+                value="70"
+                type="number"
+                class="form-control"
+                id="stopLossPercentage"
+              />
+              <span class="helper-span">%</span>
+            </div>
+
+            <!-- Tutorial modal for Stop Loss Input -->
+            <div class="tutorial-modal for-stopLoss-modal">
+              <div class="tutorial-submodal">
+                <div class="tutorial-modal-close">
+                  <button
+                    type="button"
+                    class="tutorial-modal-close-btn"
+                    onclick="handleTutorialStep('close')"
+                  >
+                    <i class="fa fa-close"></i>
+                  </button>
+                </div>
+                <div class="tutorial-description">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry.
+                </div>
+                <div class="modal-footer-section">
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('profitSkimming')"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    class="modal-footer-btn"
+                    onclick="handleTutorialStep('saveChange')"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End section -->
+          </div>
+        </div>
+
+        <div class="d-flex flex-row footer-settings">
+          <div class="form-check"></div>
+          <button class="save" type="submit">Save Changes</button>
+
+          <!-- Tutorial modal for Saving Button -->
+          <div class="tutorial-modal for-saveChangeBtn-modal">
+            <div class="tutorial-submodal">
+              <div class="tutorial-modal-close">
+                <button
+                  type="button"
+                  class="tutorial-modal-close-btn"
+                  onclick="handleTutorialStep('close')"
+                >
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+              <div class="tutorial-description">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum is simply dummy text of the printing and
+                typesetting industry.
+              </div>
+              <div class="modal-footer-section">
+                <button
+                  type="button"
+                  class="modal-footer-btn"
+                  onclick="handleTutorialStep('stopLoss')"
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  class="modal-footer-btn"
+                  onclick="handleTutorialStep('startTrading')"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- End section -->
+        </div>
+      </form>
+
+      <div class="my-table d-flex flex-column">
+        <div class="d-flex flex-row header-row">
+          <div class="border-right">TOKENS INVESTED</div>
+          <div class="border-right">TOTAL RUGS</div>
+          <div class="border-right">TOTAL INVESTMENT</div>
+          <div class="border-right">TOTAL UNREALIZED</div>
+          <div>TOTAL PROFITS</div>
+        </div>
+        <div class="d-flex flex-row body-row">
+          <div class="border-right" id="total-tokens-invested">0</div>
+          <div class="border-right" id="total-rugs">0</div>
+          <div class="border-right" id="total-sol-invested">0 SOL</div>
+          <div class="green border-right" id="total-pnl">0%</div>
+          <div class="green" id="total-profits">0</div>
+        </div>
+      </div>
+      <div class="main-buttons-container">
+        <button class="start-button">START</button>
+        <button class="stop-button">STOP</button>
+
+        <!-- Tutorial modal for Start Trading Button -->
+        <div class="tutorial-modal for-startTrading-modal">
+          <div class="tutorial-submodal">
+            <div class="tutorial-modal-close">
+              <button
+                type="button"
+                class="tutorial-modal-close-btn"
+                onclick="handleTutorialStep('close')"
+              >
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="tutorial-description">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry.
+            </div>
+            <div class="modal-footer-section">
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep('saveChange')"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep('stopTrading')"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End section -->
+
+        <!-- Tutorial modal for Stop Trading Button -->
+        <div class="tutorial-modal for-stopTrading-modal">
+          <div class="tutorial-submodal">
+            <div class="tutorial-modal-close">
+              <button
+                type="button"
+                class="tutorial-modal-close-btn"
+                onclick="handleTutorialStep('close')"
+              >
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="tutorial-description">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry.
+            </div>
+            <div class="modal-footer-section">
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep('startTrading')"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                class="modal-footer-btn"
+                onclick="handleTutorialStep('close')"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End section -->
+      </div>
+    </div>
+
+    <!--
+    <div class="logger-header d-flex flex-row justify-content-between">
+        <div class="log-info">
+            LOG INFO
+        </div>
+        <div>
+            <button class="clear-log">Clear Log</button>
+        </div>
+    </div>
+    -->
+
+    <div class="logger">
+      <pre class="logger-screen" id="logger-screen">
+            Logs will appear soon
+        </pre
+      >
+    </div>
+    <div class="lds-spinner" style="display: none" id="spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://solana-labs.github.io/wallet-adapter/dist/index.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="build.js"></script>
+    <script>
+      var tutorialFlag = false;
+
+      document.querySelector("#tutorial").addEventListener("click", () => {
+        tutorialFlag = true;
+        document.getElementById("cover-section").style.display = "block";
+        handleTutorialStep("login");
+      });
+
+      // handle Tutorial function
+      function handleTutorialStep(type) {
+        if (type == "close") {
+          tutorialFlag = false;
+          closeTutorialModal();
+          document.getElementById("cover-section").style.display = "none";
+        } else if (type == "login") {
+          closeTutorialModal();
+          document.getElementsByClassName("for-login-modal")[0].style.display =
+            "flex";
+        } else if (type == "createWallet") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-createWallet-modal"
+          )[0].style.display = "flex";
+        } else if (type == "addTelegramChannel") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-addTelegram-modal"
+          )[0].style.display = "flex";
+        } else if (type == "removeTelegramChannel") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-removeTelegram-modal"
+          )[0].style.display = "flex";
+        } else if (type == "tokenBuyAmount") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-tokenBuyAmount-modal"
+          )[0].style.display = "flex";
+        } else if (type == "maxSlippage") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-maxSlippage-modal"
+          )[0].style.display = "flex";
+        } else if (type == "autoTrading") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-autoTrading-modal"
+          )[0].style.display = "flex";
+        } else if (type == "lockInProfits") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-lockInProfits-modal"
+          )[0].style.display = "flex";
+        } else if (type == "profitTrigger") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-profitTrigger-modal"
+          )[0].style.display = "flex";
+        } else if (type == "profitSkimming") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-profitSkimming-modal"
+          )[0].style.display = "flex";
+        } else if (type == "stopLoss") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-stopLoss-modal"
+          )[0].style.display = "flex";
+        } else if (type == "saveChange") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-saveChangeBtn-modal"
+          )[0].style.display = "flex";
+        } else if (type == "startTrading") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-startTrading-modal"
+          )[0].style.display = "flex";
+        } else if (type == "stopTrading") {
+          closeTutorialModal();
+          document.getElementsByClassName(
+            "for-stopTrading-modal"
+          )[0].style.display = "flex";
+        } else {
+        }
+      }
+
+      function closeTutorialModal() {
+        const tutorialModal = document.getElementsByClassName("tutorial-modal");
+        for (var i = 0; i < tutorialModal.length; i++) {
+          tutorialModal[i].style.display = "none";
+        }
+      }
+      // end
+    </script>
+  </body>
+</html>

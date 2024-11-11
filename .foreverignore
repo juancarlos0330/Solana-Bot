@@ -1,0 +1,11 @@
+node_modules/*
+logs/*
+logs/
+telegram-session/*
+mainnet.json
+sqlite-database.db
+sqlite-database.db-journal
+tokens-data-temp.json
+tokens-data.json
+mainnet-temp.json
+mainnet.json

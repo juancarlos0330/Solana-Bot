@@ -1,0 +1,8 @@
+/node_modules
+.env
+mainnet.json
+logs/
+sqlite-database.db
+sqlite-database.db-journey
+telegram-session/
+dist/

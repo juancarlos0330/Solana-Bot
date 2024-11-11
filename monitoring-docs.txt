@@ -1,0 +1,27 @@
+When it comes to trailing stop losses, we keep a trailing position that follows price
+
+Every minute we check the current point in price and compare it to the previous saved point a minute ago
+
+The previous point in price is in the table `tradeMonitoring`
+    SELECT * FROM tradeMonitoring WHERE idAssociatedTrade=@idAssociatedTrade
+
+When we see that the current point in price is higher than the previous price a minute ago, we simply update the
+table with the new data and leave it at that
+
+If the current price is lower than the higher point, we check the distance between the previous higher point and the current
+point in price
+
+If the distance between those points is larger than our trailing stop loss, we skim some profits. This is when the trailing
+stop loss is considered hit like so:
+
+    const distanceFromTrailingSL = monitoringData.highestProfitPercentage - item.unrealizedProfitPercentage
+
+Then we take some profits like so:
+
+    const responseSell = await sellToken(item.address, settings.percentageToTakeAtTrailingStopLoss, false) // Take some off
+
+This is assuming that we have the "lockInProfits" disabled meaning price didn't do a 2x for a risk free trade
+if we have "lockInProfits" the bot will wait until the price does a 2x meaning you duplicated your investment
+
+At that point, the program will sell half of your position and keep the rest for a risk free trade. Then, the trailing
+stop loss is activated and we monitor it with those 2 points like described before
